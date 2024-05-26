@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/core/utils/colors.dart';
 import 'package:note_app/features/note/presentation/views/widgets/add_note_bottom_sheet.dart';
 import 'package:note_app/features/note/presentation/views/widgets/note_view_body.dart';
 
@@ -9,10 +10,11 @@ class NoteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor.withOpacity(.6),
         onPressed: () {
-          showModalBottomSheet(
+          showModalBottomSheet( 
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16)
+              borderRadius: BorderRadius.circular(16),
             ),
             context: context,
             builder: (context) => const AddNoteBottomSheet(),
