@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/features/note/presentation/views/widgets/custom_button.dart';
-import 'package:note_app/features/note/presentation/views/widgets/custom_text_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_app/features/note/presentation/cubit/add_notes_cubit.dart';
+import 'package:note_app/features/note/presentation/cubit/add_notes_states.dart';
+import 'package:note_app/features/note/presentation/views/widgets/add_note_form.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
   const AddNoteBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(height: 32,),
-          CustomTextField(title: "title",),
-          SizedBox(height: 16,),
-          CustomTextField(title: "content",maxLines: 5,),
-          SizedBox(height: 32,),
-          CustomButton(),
-          SizedBox(height: 16,),
-        ],),
+    return BlocProvider(
+      create: (context) => AddNotesCubit(),
+      child: BlocConsumer<AddNotesCubit, AddNoteStaes>(
+        listener: (context, state) {
+          if (state is AddNoteSuccess) {
+            Navigator.pop(context);
+          } else if (state is AddNoteFailure) {
+            print(state.errorMessage);
+          }
+        },
+        builder: (context, state) {
+          return AbsorbPointer(
+            absorbing: state is AddNoteLoading ? true : false,
+            child: Padding(
+              padding: EdgeInsets.only(left: 16,right: 16,
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: const SingleChildScrollView(child: AddNoteForm()),
+            ),
+          );
+        },
       ),
     );
   }
