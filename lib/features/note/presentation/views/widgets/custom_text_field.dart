@@ -4,14 +4,16 @@ import 'package:note_app/core/utils/colors.dart';
 class CustomTextField extends StatelessWidget {
   final String title;
   final int maxLines;
+  final void Function(String)? onChanged;
   final void Function(String?)? onSaved;
   const CustomTextField(
-      {super.key, required this.title, this.maxLines = 1, this.onSaved});
+      {super.key, required this.title, this.maxLines = 1, this.onChanged, this.onSaved});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onSaved: onSaved,
+      onChanged: onChanged,
       validator: (value) {
         if (value?.isEmpty ?? true) {
           return "Field is required";

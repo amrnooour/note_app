@@ -4,7 +4,8 @@ import 'package:note_app/features/note/presentation/views/widgets/custom_search_
 class CustomAppBar extends StatelessWidget {
   final IconData icon;
   final String title;
-  const CustomAppBar({super.key, required this.title,required this.icon});
+  final void Function()? onTap;
+  const CustomAppBar({super.key, required this.title,required this.icon, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,9 @@ class CustomAppBar extends StatelessWidget {
           style: TextStyle(fontSize: 28),
         ),
         const Spacer(),
-        CustomSearchIcon(icon: icon),
+        GestureDetector(
+          onTap: onTap,
+          child: CustomSearchIcon(icon: icon)),
       ],
     );
   }

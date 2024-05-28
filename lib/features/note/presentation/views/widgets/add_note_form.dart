@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:note_app/features/note/data/models/note_model.dart';
-import 'package:note_app/features/note/presentation/cubit/add_notes_cubit.dart';
-import 'package:note_app/features/note/presentation/cubit/add_notes_states.dart';
+import 'package:note_app/features/note/presentation/cubit/add_notes/add_notes_cubit.dart';
+import 'package:note_app/features/note/presentation/cubit/add_notes/add_notes_states.dart';
 import 'package:note_app/features/note/presentation/views/widgets/custom_button.dart';
 import 'package:note_app/features/note/presentation/views/widgets/custom_text_field.dart';
 
@@ -46,23 +47,25 @@ class _AddNoteFormState extends State<AddNoteForm> {
           const SizedBox(
             height: 32,
           ),
-          BlocBuilder<AddNotesCubit,AddNoteStaes>(
+          BlocBuilder<AddNotesCubit, AddNoteStaes>(
             builder: (context, state) => CustomButton(
-              isLoading: state is AddNoteLoading? true : false,
+              isLoading: state is AddNoteLoading ? true : false,
               onTap: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  var note = NoteMpdel(
-                    title: title!,
-                    subTitle: subTitle!,
-                    date: DateTime.now().toString(),
-                    color: Colors.black.value);
-                BlocProvider.of<AddNotesCubit>(context).addNote(note);
+                  var currentDate = DateTime.now();
+                  var formattedDate = DateFormat("dd-mm-yyyy").format(currentDate);
+                  var note = NoteModel(
+                      title: title!,
+                      subTitle: subTitle!,
+                      date: formattedDate,
+                      color: Colors.black.value);
+                  BlocProvider.of<AddNotesCubit>(context).addNote(note);
                 } else {
                   autovalidateMode = AutovalidateMode.always;
                 }
               },
-            ), 
+            ),
           ),
           const SizedBox(
             height: 16,
